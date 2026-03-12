@@ -18,7 +18,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework'
+    'rolepermissions',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -93,3 +94,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 
 STATIC_URL = 'static/'
+
+# Permissions
+
+ROLEPERMISSIONS_MODULE = "users.roles"
+
+# User
+
+AUTH_USER_MODEL = 'users.User'
