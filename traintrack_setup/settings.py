@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rolepermissions',
+    'rest_framework_simplejwt',
     'rest_framework',
 ]
 
@@ -33,6 +34,15 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'traintrack_setup.urls'
+
+
+# Authentication
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
 
 TEMPLATES = [
     {
