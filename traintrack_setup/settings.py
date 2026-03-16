@@ -7,7 +7,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG')
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ['*']
 
 #APPS
 
@@ -21,6 +21,8 @@ INSTALLED_APPS = [
     'rolepermissions',
     'rest_framework_simplejwt',
     'rest_framework',
+    # My apps
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -107,7 +109,7 @@ STATIC_URL = 'static/'
 
 # Permissions
 
-ROLEPERMISSIONS_MODULE = "users.roles"
+ROLEPERMISSIONS_MODULE = 'users.roles'
 
 # User
 
