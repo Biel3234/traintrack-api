@@ -39,4 +39,12 @@ def DeleteUser(request, pk):
     user.delete()
     return Response(serializer.data)
 
+@api_view(['POST'])
+def UpdateUser(request, pk):
+    user = User.objects.get(pk = pk)
+    serializer = UserCreateSerializer(user)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     
