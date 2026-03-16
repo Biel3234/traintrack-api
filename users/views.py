@@ -14,7 +14,7 @@ def CreateUser(request):
     serializer = UserCreateSerializer(data = request.data)
     if serializer.is_valid():
         user = serializer.save()
-        assign_role(user, 'Trainee')
+        assign_role(user, 'trainee')
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
