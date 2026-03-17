@@ -1,6 +1,5 @@
 from django.contrib.auth.models import BaseUserManager
 from rolepermissions.roles import assign_role
-from .roles import Admin
 
 class UserManager(BaseUserManager):
 
