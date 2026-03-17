@@ -6,6 +6,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, null=False)
     password = models.CharField(max_length=20, null=False)
     phone = models.CharField(max_length=15, null=False)
+    category = models.Choices
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
