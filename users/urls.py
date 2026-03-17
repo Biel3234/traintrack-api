@@ -3,7 +3,9 @@ from .views import *
 
 urlpatterns = [
     path('createtrainee/', create_trainee),
-    path('listuser/', view_trainee),
-    path('detailuser/<int:pk>', detail_trainee),
-    path('deleteuser/<int:pk>', delete_trainee)
+    path('listuser/', view_users),
+    path('detailuser/<int:pk>', detail_user),
+    path('deleteuser/<int:pk>', delete_user),
+    path('updateuser/<int:pk>', update_user),
+    path('createtrainer/', create_trainer),
 ]
