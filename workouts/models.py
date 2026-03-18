@@ -13,3 +13,10 @@ class Workout(models.Model):
     trainee = models.ForeignKey(User, on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
+
+class WorkoutExercise(models.Model):
+
+    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
+    sets = models.IntegerField()
+    reps = models.IntegerField()
