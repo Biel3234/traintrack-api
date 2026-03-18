@@ -1,14 +1,13 @@
-from rolepermissions.roles import AbstractUserRole
+from rest_framework.permissions import BasePermission
 
-class Trainee(AbstractUserRole):
-    available_permissions = {'view_workout': True}
-
-class Trainer(AbstractUserRole):
-    available_permissions = {
-        'view_workout': True, 'create_workout': True, 'edit_workout': True, 'delete_workout': True, 'create_trainee': True
-    }
-
-class Admin(AbstractUserRole):
-    available_permissions = {
-        'view_workout': True, 'create_workout': True, 'edit_workout': True, 'delete_workout': True, 'create_trainee': True, 'create_trainer': True
-    }
+class IsTrainer(BasePermission):
+    def has_permission(self, request, user, view):
+        return request.user.role == 'trainer'
+    
+class IsTrainee(BasePermission):
+    def has_permission(self, request, user, view):
+        return request.user.role == 'trainee'
+    
+class IsAdmin(BasePermission):
+    def has_permission(self, request, user, view):
+        return request.user.role == 'admin'
