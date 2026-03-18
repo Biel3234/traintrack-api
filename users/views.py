@@ -9,6 +9,8 @@ from .serializer import UserCreateSerializer, UserViewSerializer
 
 from .models import User
 
+from .filters import UserFilter
+
 @permission_classes([IsTrainer, IsAdmin])
 @api_view(['POST'])
 def create_trainee(request):
@@ -35,8 +37,14 @@ def create_trainer(request):
 
 @permission_classes([IsTrainer, IsAdmin])
 @api_view(['GET'])
-def view_users(request): 
-    serializer = UserViewSerializer(User.objects.all(), many=True)
+def view_users(request):
+    queryset = User.objects.all()
+    filter = UserFilter(request.GET, queryset=queryset)
+
+    if not filter.is_valid():
+        return Response(filter.errors, status=400)
+
+    serializer = UserViewSerializer(filter.qs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @permission_classes([IsTrainer, IsAdmin])
