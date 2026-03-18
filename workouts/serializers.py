@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Exercise, Workout, WorkoutExercise
 
-class ExerciserSerializer(serializers.ModelSerializer):
+class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
 

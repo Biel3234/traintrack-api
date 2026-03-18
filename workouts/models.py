@@ -9,8 +9,8 @@ class Workout(models.Model):
 
     name = models.CharField(max_length=50)
     description = models.TextField()
-    trainer = models.ForeignKey(User, on_delete=models.CASCADE)
-    trainee = models.ForeignKey(User, on_delete=models.CASCADE)
+    trainer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainer')
+    trainee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainee')
 
     created_at = models.DateTimeField(auto_now_add=True)
 
