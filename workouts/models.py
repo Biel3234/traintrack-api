@@ -1,2 +1,15 @@
+from users.models import User
 from django.db import models
 
+class Exercise(models.Model):
+
+    name =  models.CharField(max_length=100)
+
+class Workout(models.Model):
+
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    trainer = models.ForeignKey(User, on_delete=models.CASCADE)
+    trainee = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True)
