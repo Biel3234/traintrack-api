@@ -41,10 +41,14 @@ def create_workout(request):
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"Erro": "Não há treinos existentes"}, status=status.HTTP_404_NOT_FOUND)
     
-
 class DetailWorkout(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Workout.objects.all()
     serializer_class = WorkoutViewSerializer
     permission_classes = [IsAdmin | IsTrainer]
     
+class CreateWorkoutExercise(generics.ListCreateAPIView):
+
+    queryset = WorkoutExercise.objects.all()
+    serializer_class = WorkoutExercise
+    permission_classes = [IsAdmin | IsTrainer]
