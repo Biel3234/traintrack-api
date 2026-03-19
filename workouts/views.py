@@ -1,8 +1,8 @@
 from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutViewSerializer, WorkoutExerciseSerializer
 
+from rest_framework.decorators import api_view, permission_classes
 from .models import Exercise, WorkoutExercise, Workout
 from users.roles import IsAdmin, IsTrainee, IsTrainer
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
@@ -19,6 +19,7 @@ class DetailExercise(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ExerciseSerializer
     permission_classes = [IsAdmin | IsTrainer]
 
+@permission_classes([IsTrainer, IsAdmin])
 @api_view(['GET', 'POST'])
 def create_workout(request):
 
@@ -39,4 +40,11 @@ def create_workout(request):
         if workouts:
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"Erro": "Não há treinos existentes"}, status=status.HTTP_404_NOT_FOUND)
+    
+
+class DetailWorkout(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = Workout.objects.all()
+    serializer_class = WorkoutViewSerializer
+    permission_classes = [IsAdmin | IsTrainer]
     
