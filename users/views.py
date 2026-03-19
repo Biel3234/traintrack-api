@@ -42,7 +42,7 @@ def view_users(request):
     filter = UserFilter(request.GET, queryset=queryset)
 
     if not filter.is_valid():
-        return Response(filter.errors, status=400)
+        return Response(filter.errors, status=status.HTTP_400_BAD_REQUEST)
 
     serializer = UserViewSerializer(filter.qs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
