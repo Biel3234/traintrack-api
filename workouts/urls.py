@@ -6,5 +6,6 @@ urlpatterns = [
     path('detailexercise/<int:pk>', DetailExercise.as_view()),
     path('createworkout/', create_workout),
     path('detailworkout/<int:pk>', DetailWorkout.as_view()),
-    path('createlistworkoutexercise/', CreateWorkoutExercise.as_view())
+    path('createlistworkoutexercise/', CreateWorkoutExercise.as_view()),
+    path('my-workouts/', WorkoutTraineeView.as_view())
 ]

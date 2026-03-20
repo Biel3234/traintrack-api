@@ -21,6 +21,13 @@ class WorkoutExerciseViewSerializer(serializers.ModelSerializer):
 
         fields = ['id', 'exercise', 'sets', 'reps']
 
+class WorkoutExerciseTraineeViewSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer(read_only=True)
+    class Meta:
+        model = WorkoutExercise
+
+        fields = ['id', 'exercise', 'sets', 'reps']
+
 class WorkoutCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
@@ -30,7 +37,6 @@ class WorkoutCreateSerializer(serializers.ModelSerializer):
 class WorkoutViewSerializer(serializers.ModelSerializer):
     trainer = UserSimpleSerializer(read_only=True)
     trainee = UserSimpleSerializer(read_only=True)
-
     exercises = WorkoutExerciseViewSerializer(
         source='workoutexercise_set',
         many = True,
@@ -41,4 +47,18 @@ class WorkoutViewSerializer(serializers.ModelSerializer):
         model = Workout
 
         fields = ['name', 'description', 'trainee', 'trainer', 'exercises', 'created_at']
+
+class WorkoutTraineeView(serializers.ModelSerializer):
+    trainer = UserSimpleSerializer(read_only=True)
+    exercises = WorkoutExerciseTraineeViewSerializer(
+        source='workoutexercise_set',
+        many = True,
+        read_only = True,
+    )
+
+    class Meta:
+        model = Workout
+
+        fields = ['name', 'description', 'trainer', 'exercises']
+
 
