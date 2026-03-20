@@ -1,4 +1,4 @@
-from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutViewSerializer, WorkoutExerciseSerializer
+from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutViewSerializer, WorkoutExerciseViewSerializer
 
 from rest_framework.decorators import api_view, permission_classes
 from .models import Exercise, WorkoutExercise, Workout

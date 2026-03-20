@@ -25,7 +25,12 @@ class Workout(models.Model):
     description = models.TextField()
     trainer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainer')
     trainee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trainee')
+    exercises = models.ManyToManyField(
+        Exercise,
+        through='WorkoutExercise'
+    )
     day_of_week = models.CharField(max_length=3, choices=WEEK)
+
 
     created_at = models.DateTimeField(auto_now_add=True)
 
