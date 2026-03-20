@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
 
-from .roles import IsTrainer, IsAdmin
+from .roles import IsTrainer, IsAdmin, IsAdminOrTrainer
 
 from .serializer import UserCreateSerializer, UserViewSerializer
 
@@ -11,7 +11,7 @@ from .models import User
 
 from .filters import UserFilter
 
-@permission_classes([IsTrainer, IsAdmin])
+@permission_classes([IsAdminOrTrainer])
 @api_view(['POST'])
 def create_trainee(request):
     data = request.data.copy()
@@ -23,7 +23,7 @@ def create_trainee(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@permission_classes([IsTrainer, IsAdmin])
+@permission_classes([IsAdmin])
 @api_view(['POST'])
 def create_trainer(request):
     data = request.data.copy()
@@ -35,7 +35,7 @@ def create_trainer(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@permission_classes([IsTrainer, IsAdmin])
+@permission_classes([IsAdminOrTrainer])
 @api_view(['GET'])
 def view_users(request):
     queryset = User.objects.all()
@@ -47,7 +47,7 @@ def view_users(request):
     serializer = UserViewSerializer(filter.qs, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
-@permission_classes([IsTrainer, IsAdmin])
+@permission_classes([IsAdminOrTrainer])
 @api_view(['GET'])
 def detail_user(request, pk):
     user = get_object_or_404(User, pk=pk)

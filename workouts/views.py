@@ -1,8 +1,8 @@
-from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutViewSerializer, WorkoutTraineeView
+from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutViewSerializer, WorkoutTraineeViewSerializer
 
 from rest_framework.decorators import api_view, permission_classes
 from .models import Exercise, WorkoutExercise, Workout
-from users.roles import IsAdmin, IsTrainee, IsTrainer
+from users.roles import IsAdmin, IsTrainee, IsTrainer, IsAdminOrTrainer
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
@@ -19,8 +19,8 @@ class DetailExercise(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ExerciseSerializer
     permission_classes = [IsAdmin | IsTrainer]
 
-@permission_classes([IsTrainer, IsAdmin])
 @api_view(['GET', 'POST'])
+@permission_classes([IsAdminOrTrainer])
 def create_workout(request):
 
     if request.method == 'POST':
@@ -55,7 +55,7 @@ class CreateWorkoutExercise(generics.ListCreateAPIView):
 
 class WorkoutTraineeView(generics.ListAPIView):
     
-    serializer_class = WorkoutTraineeView
+    serializer_class = WorkoutTraineeViewSerializer
     permission_classes = [IsTrainee]
 
     def get_queryset(self):

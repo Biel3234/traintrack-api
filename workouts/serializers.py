@@ -48,7 +48,7 @@ class WorkoutViewSerializer(serializers.ModelSerializer):
 
         fields = ['name', 'description', 'trainee', 'trainer', 'exercises', 'created_at']
 
-class WorkoutTraineeView(serializers.ModelSerializer):
+class WorkoutTraineeViewSerializer(serializers.ModelSerializer):
     trainer = UserSimpleSerializer(read_only=True)
     exercises = WorkoutExerciseTraineeViewSerializer(
         source='workoutexercise_set',
