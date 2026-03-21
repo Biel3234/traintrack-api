@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
 
+from .filters import WorkoutFilter
+
 class CreateExercise(generics.ListCreateAPIView):
 
     queryset = Exercise.objects.all()
@@ -35,9 +37,14 @@ def create_workout(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     if request.method == 'GET':
-        workouts = Workout.objects.all()
-        serializer = WorkoutViewSerializer(workouts, many=True)
-        if workouts:
+        queryset = Workout.objects.all()
+        filter = WorkoutFilter(request.GET, queryset=queryset)
+        
+        if not filter.is_valid():
+            return Response(filter.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        serializer = WorkoutViewSerializer(filter.qs, many=True)
+        if queryset:
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response({"Erro": "Não há treinos existentes"}, status=status.HTTP_404_NOT_FOUND)
     
