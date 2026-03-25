@@ -3,6 +3,7 @@ from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutVie
 from rest_framework.decorators import api_view, permission_classes
 from .models import Exercise, WorkoutExercise, Workout
 from users.roles import IsAdmin, IsTrainee, IsTrainer, IsAdminOrTrainer
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import status
@@ -37,16 +38,18 @@ def create_workout(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     if request.method == 'GET':
+        paginator = PageNumberPagination()
+        paginator.page_size = 10
         queryset = Workout.objects.all()
         filter = WorkoutFilter(request.GET, queryset=queryset)
-        
+
         if not filter.is_valid():
             return Response(filter.errors, status=status.HTTP_400_BAD_REQUEST)
         
-        serializer = WorkoutViewSerializer(filter.qs, many=True)
-        if queryset:
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"Erro": "Não há treinos existentes"}, status=status.HTTP_404_NOT_FOUND)
+        result_pages = paginator.paginate_queryset(filter.qs, request)
+        serializer = WorkoutViewSerializer(result_pages, many=True)
+
+        return paginator.get_paginated_response(serializer.data)
     
 class DetailWorkout(generics.RetrieveUpdateDestroyAPIView):
 

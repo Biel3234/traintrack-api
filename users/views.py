@@ -2,6 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.pagination import PageNumberPagination
 
 from .roles import IsTrainer, IsAdmin, IsAdminOrTrainer
 
@@ -43,9 +44,12 @@ def view_users(request):
 
     if not filter.is_valid():
         return Response(filter.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    serializer = UserViewSerializer(filter.qs, many=True)
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    result_pages = paginator.paginate_queryset(filter.qs, request)
+    serializer = UserViewSerializer(result_pages, many=True)
+    return paginator.get_paginated_response(serializer.data)
 
 @permission_classes([IsAdminOrTrainer])
 @api_view(['GET'])
@@ -71,5 +75,3 @@ def update_user(request, pk):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    
