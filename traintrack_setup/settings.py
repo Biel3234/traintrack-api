@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     # Restframework
     'rest_framework_simplejwt',
     'rest_framework',
+    # Swagger
+    'drf_yasg',
     # My apps
     'users',
     'workouts',
