@@ -14,6 +14,11 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
         fields = ['name']
 
+class WorkoutExerciseCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = WorkoutExercise
+        fields = ['workout', 'exercise', 'sets', 'reps']
+
 class WorkoutExerciseViewSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer(read_only=True)
     class Meta:

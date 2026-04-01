@@ -1,4 +1,4 @@
-from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutViewSerializer, WorkoutTraineeViewSerializer
+from .serializers import ExerciseSerializer, WorkoutCreateSerializer, WorkoutViewSerializer, WorkoutTraineeViewSerializer, WorkoutExerciseCreateSerializer
 
 from rest_framework.decorators import api_view, permission_classes
 from .models import Exercise, WorkoutExercise, Workout
@@ -60,7 +60,7 @@ class DetailWorkout(generics.RetrieveUpdateDestroyAPIView):
 class CreateWorkoutExercise(generics.ListCreateAPIView):
 
     queryset = WorkoutExercise.objects.all()
-    serializer_class = WorkoutExercise
+    serializer_class = WorkoutExerciseCreateSerializer
     permission_classes = [IsAdmin | IsTrainer]
 
 class WorkoutTraineeView(generics.ListAPIView):
