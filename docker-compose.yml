@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: traintrack_db
+    environment:
+      POSTGRES_DB: traintrack_db
+      POSTGRES_USER: traintrack_user
+      POSTGRES_PASSWORD: traintrack_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U traintrack_user -d traintrack_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: traintrack_api
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    env_file: .env
+    environment:
+      DATABASE_ENGINE: django.db.backends.postgresql
+      DATABASE_NAME: traintrack_db
+      DATABASE_USER: traintrack_user
+      DATABASE_PASSWORD: traintrack_password
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      DEBUG: "True"
+      SECRET_KEY: django-insecure-your-secret-key
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+
+volumes:
+  postgres_data:
